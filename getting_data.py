@@ -101,3 +101,6 @@ def get_dataframe(
                 time_format,
             )
     log.info(f"Data has been saved to {filename}")
+
+
+get_dataframe()

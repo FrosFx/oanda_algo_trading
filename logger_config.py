@@ -7,7 +7,7 @@ import logging
 import os
 
 # Set the log level
-LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+LOG_LEVEL = "DEBUG"
 
 # Define the log format and log file name
 LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
