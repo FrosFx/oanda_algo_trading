@@ -1,3 +1,4 @@
 .oanda_venv
 data
 *.cfg
+.env
