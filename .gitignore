@@ -2,3 +2,8 @@
 data
 *.cfg
 .env
+.venv
+__pycache__
+logs
+*.log
+*.csv
