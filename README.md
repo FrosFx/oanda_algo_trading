@@ -1,0 +1,6 @@
+## .env variables
+
+```text
+ACCOUNT_ID=101-011-26248000-001
+ACCESS_TOKEN=844e2dd98b9e7f9a5eeb1ba46b8f6023-0e6a91902adf3ad5ce479b55dfa7c56d
+```
