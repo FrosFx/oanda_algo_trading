@@ -1,3 +1,8 @@
 pandas
 oandapyV20
 python-dotenv
+python-dateutil
+requests
+ta
+
+
