@@ -46,11 +46,7 @@ class RsiSma:
         self.data.loc[condition_1_sell & condition_2_sell, "signal"] = -1
 
     def get_entry_signal(self, time):
-        """
-        Entry signal
-        :param time: TimeStamp of the row
-        :return: Entry signal of the row and entry time
-        """
+        
         # If we are in the first or second columns, we do nothing
         if len(self.data.loc[:time]) < 2:
             return 0, self.entry_time
@@ -80,14 +76,7 @@ class RsiSma:
         return entry_signal, self.entry_time
 
     def get_exit_signal(self, time):
-        """
-        Take-profit & Stop-loss exit signal
-        :param time: TimeStamp of the row
-        :return: P&L of the position IF we close it
-
-        **ATTENTION**: If you allow your bot to take a buy and a sell position in the same time,
-        you need to return 2 values position_return_buy AND position_return_sell (and sum both for each day)
-        """
+       
         # Verify if we need to close a position and update the variations IF we are in a buy position
         if self.buy:
             self.var_buy_high = (self.data.loc[time]["high"] - self.open_buy_price) / self.open_buy_price
@@ -139,12 +128,7 @@ class RsiSma:
             self.var_sell_high = -(self.data.loc[time]["high"] - self.open_sell_price) / self.open_sell_price
             self.var_sell_low = -(self.data.loc[time]["low"] - self.open_sell_price) / self.open_sell_price
 
-            print(self.var_sell_high, self.var_sell_low)
-            breakpoint()
-
-            
-
-            # Let's check if AT LEAST one of our threshold are touched on this row
+            # Check check if AT LEAST one of our threshold are touched on this row
             if (self.var_sell_low < self.tp) and (self.var_sell_high < self.sl):
 
                 # Close with a positive P&L if high_time is before low_time
