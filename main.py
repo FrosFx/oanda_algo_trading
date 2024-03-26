@@ -38,28 +38,23 @@ args = parser.parse_args()
 
 date_format = "%Y-%m-%dT%H:%M:%SZ"
 
-data = {
-    "instrument": "GBP_JPY",
-    "granularity": "D",
+params = {
+    "instrument": "EUR_USD",
+    "granularity": "M15",
     "start_date": dateparser.isoparse(args.startDate).strftime(date_format),
     "end_date": dateparser.isoparse(args.endDate).strftime(date_format),
-}
-
-params = {
-    "granularity": data["granularity"],
-    "from": data["start_date"],
     "count": 5000,
 }
 
 
-filename = f"{data['instrument']}_{data['granularity']}_from_{data['start_date'].replace(':', '-')}_to_{data['end_date'].replace(':', '-')}.csv"
+filename = f"{params['instrument']}_{params['granularity']}_from_{params['start_date'].replace(':', '-')}_to_{params['end_date'].replace(':', '-')}.csv"
 
 
 def get_dataframe(
-    instrument=data["instrument"],
+    instrument=params["instrument"],
     params=params,
     filename=filename,
-    end_date=data["end_date"],
+    end_date=params["end_date"],
 ):
     with open(filename, "w", newline="") as file:
         writer = csv.writer(file)
@@ -68,7 +63,14 @@ def get_dataframe(
 
         while True:
 
-            for r in InstrumentsCandlesFactory(instrument=instrument, params=params):
+            for r in InstrumentsCandlesFactory(
+                instrument=params["instrument"],
+                params={
+                    "from": params["start_date"],
+                    "granularity": params["granularity"],
+                    "count": params["count"],
+                },
+            ):
                 client.request(r)
                 for candle in r.response.get("candles"):
                     if candle["complete"]:
@@ -97,10 +99,11 @@ def get_dataframe(
             if last_candle_time >= dateparser.isoparse(end_date).replace(tzinfo=None):
                 break
 
-            params["from"] = (last_candle_time + timedelta(days=1)).strftime(
+            params["from"] = (last_candle_time + timedelta(minutes=15)).strftime(
                 time_format,
             )
     log.info(f"Data has been saved to {filename}")
 
 
-get_dataframe()
+if __name__ == "__main__":
+    get_dataframe()
