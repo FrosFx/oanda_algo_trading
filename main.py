@@ -34,6 +34,9 @@ parser.add_argument(
     help="End date for the data",
 )
 
+# Place where fetched files will be stored
+DATA_DIR = "./data"
+
 args = parser.parse_args()
 
 date_format = "%Y-%m-%dT%H:%M:%SZ"
@@ -46,8 +49,10 @@ params = {
     "count": 5000,
 }
 
+if not os.path.exists(DATA_DIR):
+    os.makedirs(DATA_DIR)
 
-filename = f"{params['instrument']}_{params['granularity']}_from_{params['start_date'].replace(':', '-')}_to_{params['end_date'].replace(':', '-')}.csv"
+filename = f"{DATA_DIR}/{params['instrument']}_{params['granularity']}_from_{params['start_date'].replace(':', '-')}_to_{params['end_date'].replace(':', '-')}.csv"
 
 
 def get_dataframe(
