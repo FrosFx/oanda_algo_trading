@@ -13,7 +13,7 @@ def rsi(df, col, n):
     df["RSI"] = ta.momentum.RSIIndicator(df[col], int(n)).rsi()
     return df
 
-df = pd.read_csv(r"C:\Users\nikol\algo\oanda_algo_trading\data\EUR_USD_M30_from_2014-01-01T00-00-00Z_to_2024-03-10T00-00-00Z.csv")
+df = pd.read_csv(r"C:\Users\nikol\algo\oanda_algo_trading\data\EUR_USD_H4_READY.csv")
 
 df = sma(df, "close", 30)
 df = rsi(df, "close", 14)
