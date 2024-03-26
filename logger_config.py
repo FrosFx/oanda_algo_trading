@@ -2,9 +2,9 @@
 Set and configure logging functionality
 """
 
-from datetime import datetime
 import logging
 import os
+from datetime import datetime
 
 # Set the log level
 LOG_LEVEL = "DEBUG"
@@ -36,8 +36,8 @@ logs_dir = "./logs"
 if not os.path.exists(logs_dir):
     os.makedirs(logs_dir)
 
-# Define the log file name with the current date and time
-FILENAME = f'logs\\{datetime.now().strftime("%Y-%m-%d-%H-%M-%S")}.log'
+    # Define the log file name with the current date and time
+FILENAME = f"{logs_dir}/{datetime.datetime.now().strftime('%Y-%m-%d-%H:%M:%S')}.log"
 
 
 # The `file_handler` is used to write log messages to a log file
