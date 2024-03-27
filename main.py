@@ -9,11 +9,11 @@ from dotenv import load_dotenv
 from oandapyV20 import API
 from oandapyV20.contrib.factories import InstrumentsCandlesFactory
 
-import logger_config
+import src
 
 load_dotenv()
 
-log = logger_config.logger
+log = src.logger_config.logger
 
 access_token = os.getenv("ACCESS_TOKEN")
 client = API(access_token=access_token)
