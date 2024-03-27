@@ -35,15 +35,15 @@ parser.add_argument(
 )
 
 # Place where fetched files will be stored
-DATA_DIR = "./data"
+DATA_DIR = ".\\data"
 
 args = parser.parse_args()
 
 date_format = "%Y-%m-%dT%H:%M:%SZ"
 
 params = {
-    "instrument": "EUR_USD",
-    "granularity": "M15",
+    "instrument": "EUR_GBP",
+    "granularity": "M30",
     "start_date": dateparser.isoparse(args.startDate).strftime(date_format),
     "end_date": dateparser.isoparse(args.endDate).strftime(date_format),
     "count": 5000,
@@ -52,7 +52,7 @@ params = {
 if not os.path.exists(DATA_DIR):
     os.makedirs(DATA_DIR)
 
-filename = f"{DATA_DIR}/{params['instrument']}_{params['granularity']}_from_{params['start_date'].replace(':', '-')}_to_{params['end_date'].replace(':', '-')}.csv"
+filename = f"{DATA_DIR}\\{params['instrument']}_{params['granularity']}_from_{params['start_date'].replace(':', '-')}_to_{params['end_date'].replace(':', '-')}.csv"
 
 
 def get_dataframe(

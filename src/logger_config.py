@@ -6,20 +6,15 @@ import datetime
 import logging
 import os
 
-# Set the DEBUG_SWITCH environment variable to True for local testing
-DEBUG_SWITCH = os.getenv("DEBUG_SWITCH", "False")
-
-# Set the log level
-LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
 # Define the log format and log file name
 LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
-# Create a logger object with the name "Binance-Connector"
-logger = logging.getLogger("Binance-Connector")
+# Create a logger object with the name "Oanda-Connector"
+logger = logging.getLogger("Oanda-Connector")
 
-# Set the log level
-logger.setLevel(LOG_LEVEL)
+# Set the log level# Assuming `FILENAME` is the variable holding your filename
+logger.setLevel("DEBUG")
 
 # Set the log format
 formatter = logging.Formatter(LOG_FORMAT)
@@ -40,7 +35,7 @@ if not os.path.exists(logs_dir):
     os.makedirs(logs_dir)
 
 # Define the log file name with the current date and time
-FILENAME = f"{logs_dir}/{datetime.datetime.now().strftime('%Y-%m-%d-%H:%M:%S')}.log"
+FILENAME = f"{logs_dir}\{datetime.datetime.now().strftime('%Y-%m-%d-%H:%M:%S')}.log".replace(':', '-')
 
 # The `file_handler` is used to write log messages to a log file
 file_handler = logging.FileHandler(FILENAME)
