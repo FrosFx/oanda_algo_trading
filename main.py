@@ -44,7 +44,7 @@ date_format = "%Y-%m-%dT%H:%M:%SZ"
 
 params = {
     "instrument": "EUR_USD",
-    "granularity": "M15",
+    "granularity": "H4",
     "start_date": dateparser.isoparse(args.startDate).strftime(date_format),
     "end_date": dateparser.isoparse(args.endDate).strftime(date_format),
     "count": 5000,
@@ -80,7 +80,7 @@ def get_dataframe(
                 client.request(r)
                 for candle in r.response.get("candles"):
                     if candle["complete"]:
-                        time = candle["time"][:26]
+                        time = candle["time"][:26] + "Z"
                         price = candle["mid"]
                         writer.writerow(
                             [
@@ -99,13 +99,13 @@ def get_dataframe(
             time_format = "%Y-%m-%dT%H:%M:%S.%fZ"
 
             last_candle_time = datetime.strptime(
-                r.response.get("candles")[-1]["time"][:26],
+                r.response.get("candles")[-1]["time"][:26] + "Z",
                 time_format,
             )
             if last_candle_time >= dateparser.isoparse(end_date).replace(tzinfo=None):
                 break
 
-            params["from"] = (last_candle_time + timedelta(minutes=15)).strftime(
+            params["from"] = (last_candle_time + timedelta(minutes=240)).strftime(
                 time_format,
             )
     log.info(f"Data has been saved to {filename}")
@@ -118,8 +118,8 @@ if __name__ == "__main__":
     file_path = filename
 
     #Function to load data with datetime parsing
-    def load_data(df):
-        df["time"] = pd.to_datetime(df["time"], unit="s")
+    def load_data(file_path):
+        df = pd.read_csv(file_path, parse_dates=['time'])
         return df
     
     #Load the data
