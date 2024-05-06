@@ -2,6 +2,7 @@ import argparse
 import csv
 import os
 from datetime import datetime, timedelta
+import pandas as pd
 
 import requests
 from dateutil import parser as dateparser
@@ -42,8 +43,8 @@ args = parser.parse_args()
 date_format = "%Y-%m-%dT%H:%M:%SZ"
 
 params = {
-    "instrument": "EUR_GBP",
-    "granularity": "M30",
+    "instrument": "EUR_USD",
+    "granularity": "M15",
     "start_date": dateparser.isoparse(args.startDate).strftime(date_format),
     "end_date": dateparser.isoparse(args.endDate).strftime(date_format),
     "count": 5000,
@@ -79,7 +80,7 @@ def get_dataframe(
                 client.request(r)
                 for candle in r.response.get("candles"):
                     if candle["complete"]:
-                        time = candle["time"][:26] + "Z"
+                        time = candle["time"][:26]
                         price = candle["mid"]
                         writer.writerow(
                             [
@@ -98,7 +99,7 @@ def get_dataframe(
             time_format = "%Y-%m-%dT%H:%M:%S.%fZ"
 
             last_candle_time = datetime.strptime(
-                r.response.get("candles")[-1]["time"][:26] + "Z",
+                r.response.get("candles")[-1]["time"][:26],
                 time_format,
             )
             if last_candle_time >= dateparser.isoparse(end_date).replace(tzinfo=None):
@@ -112,3 +113,15 @@ def get_dataframe(
 
 if __name__ == "__main__":
     get_dataframe()
+
+    #Path to the CSV file 
+    file_path = filename
+
+    #Function to load data with datetime parsing
+    def load_data(df):
+        df["time"] = pd.to_datetime(df["time"], unit="s")
+        return df
+    
+    #Load the data
+    df = load_data(file_path)
+    print(df.info())

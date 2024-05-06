@@ -47,8 +47,10 @@ def find_timestamp_extremum(df, df_lower_timeframe):
     return df
 
 
-df_low_tf = pd.read_csv(r"C:\Users\nikol\algo\oanda_algo_trading\data\EUR_USD_M30_from_2014-01-01T00-00-00Z_to_2024-03-10T00-00-00Z.csv", index_col="time", parse_dates=True)
-df_high_tf = pd.read_csv(r"C:\Users\nikol\algo\oanda_algo_trading\data\EUR_USD_H4_from_2014-01-01T00-00-00Z_to_2024-03-10T00-00-00Z.csv", index_col="time", parse_dates=True)
+
+df_low_tf = pd.read_csv(r"C:\Users\nikol\algo\oanda_algo_trading\data\EUR_USD_M30_from_2014-01-01T00-00-00Z_to_2024-05-05T00-00-00Z.csv", index_col="time", parse_dates=True)
+df_high_tf = pd.read_csv(r"C:\Users\nikol\algo\oanda_algo_trading\data\EUR_USD_H4_from_2014-01-01T00-00-00Z_to_2024-05-05T00-00-00Z.csv", index_col="time", parse_dates=True)
+
 
 df = find_timestamp_extremum(df_high_tf, df_low_tf)
 
