@@ -42,9 +42,9 @@ args = parser.parse_args()
 
 date_format = "%Y-%m-%dT%H:%M:%SZ"
 
-params = {
+params = { 
     "instrument": "EUR_USD",
-    "granularity": "H4",
+    "granularity": "M5",
     "start_date": dateparser.isoparse(args.startDate).strftime(date_format),
     "end_date": dateparser.isoparse(args.endDate).strftime(date_format),
     "count": 5000,
@@ -62,6 +62,8 @@ def get_dataframe(
     filename=filename,
     end_date=params["end_date"],
 ):
+
+
     with open(filename, "w", newline="") as file:
         writer = csv.writer(file)
 
@@ -105,7 +107,7 @@ def get_dataframe(
             if last_candle_time >= dateparser.isoparse(end_date).replace(tzinfo=None):
                 break
 
-            params["from"] = (last_candle_time + timedelta(minutes=240)).strftime(
+            params["from"] = (last_candle_time + timedelta(minutes=5)).strftime(
                 time_format,
             )
     log.info(f"Data has been saved to {filename}")
@@ -114,14 +116,19 @@ def get_dataframe(
 if __name__ == "__main__":
     get_dataframe()
 
+"""
     #Path to the CSV file 
     file_path = filename
 
     #Function to load data with datetime parsing
     def load_data(file_path):
-        df = pd.read_csv(file_path, parse_dates=['time'])
+        df = pd.read_csv(file_path)
+        df = pd.to_datetime(df['time'], unit='s')
+        df = df.set_axis(['time'], axis='index')
+
         return df
     
     #Load the data
     df = load_data(file_path)
     print(df.info())
+"""
